@@ -24,7 +24,7 @@ gulp.task 'copy', ['clean'],() ->
   gulp.src "#{paths.src}/**/*.html"
   .pipe gulp.dest paths.target
 
-gulp.task 'reload', () ->
+gulp.task 'reload', ['build'], () ->
   browserSync.reload()
 
 gulp.task 'browser-sync', () ->
