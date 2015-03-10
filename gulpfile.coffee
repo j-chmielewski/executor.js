@@ -26,7 +26,7 @@ gulp.task 'lib', ['clean'], () ->
   .pipe gulp.dest "#{paths.target}/lib"
 
 gulp.task 'copy', ['clean'],() ->
-  gulp.src ["#{paths.src}/**/*.html", "#{paths.src}/**/*.jpg"]
+  gulp.src ["#{paths.src}/**/*.html", "#{paths.src}/**/*.jpg", "#{paths.src}/**/*.mp3"]
   .pipe gulp.dest paths.target
 
 gulp.task 'reload', ['build'], () ->

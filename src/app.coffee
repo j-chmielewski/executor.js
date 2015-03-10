@@ -81,13 +81,19 @@ Reveal.initialize({
 
 # executor init
 exe = new Executor(
-  lewo: () ->
+  left: () ->
     Reveal.left()
-  prawo: () ->
+  right: () ->
     Reveal.right()
-  'góra': () ->
+  up: () ->
     Reveal.up()
-  'dół': () ->
+  down: () ->
     Reveal.down()
+  play: (artist...) ->
+    aname = artist.reduce((a, b) -> "#{a}+#{b}")
+    open("http://www.jango.com/music/#{aname}")
+  sing: () ->
+    audio = document.getElementsByTagName('audio')[0]
+    audio.play()
 )
 exe.start()

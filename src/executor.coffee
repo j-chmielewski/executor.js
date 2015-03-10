@@ -1,17 +1,19 @@
 class Executor
-  constructor: (@commands) ->
+  constructor: (@commands, @lang='en-US') ->
 
   start: () ->
     if not 'webkitSpeechRecognition' in window
-      console.error 'No web speech engine'
+      @log 'No web speech engine'
     else
-      console.log 'EXE engine start'
+      @log 'Engine start'
       recognition = new webkitSpeechRecognition()
       recognition.continuous = true
+      recognition.lang = @lang
       recognition.interimResults = false
 
       recognition.onstart = () =>
-        console.log 'onstart'
+        @log 'onstart'
+
       recognition.onresult = () =>
         for result in event.results by -1
           if result.isFinal
@@ -20,9 +22,10 @@ class Executor
             break
 
       recognition.onerror = () =>
-        console.log 'onerror'
+        @log 'onerror'
+
       recognition.onend = () =>
-        console.log 'onend'
+        @log 'onend'
 
       recognition.start()
 
@@ -31,6 +34,9 @@ class Executor
     if command of @commands
       console.log "[EXE] #{new Date()} #{command} #{params}"
       @commands[command].apply(undefined, params)
+
+  log: (message) ->
+    console.log "[EXE] #{message}"
 
 
 window.Executor = Executor
