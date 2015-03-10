@@ -80,7 +80,7 @@ Reveal.initialize({
 });
 
 # executor init
-exe = new Executor(
+commands =   {
   left: () ->
     Reveal.left()
   right: () ->
@@ -95,5 +95,10 @@ exe = new Executor(
   sing: () ->
     audio = document.getElementsByTagName('audio')[0]
     audio.play()
+}
+
+exe = new Executor(
+  commands: commands
+  debug: true
 )
 exe.start()

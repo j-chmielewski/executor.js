@@ -1,5 +1,8 @@
 class Executor
-  constructor: (@commands, @lang='en-US') ->
+  constructor: (options) ->
+    @commands = options.commands ? {}
+    @lang = options.lang ? 'en-US'
+    @debug = options.debug ? false
 
   start: () ->
     if not 'webkitSpeechRecognition' in window
@@ -12,7 +15,7 @@ class Executor
       recognition.interimResults = false
 
       recognition.onstart = () =>
-        @log 'onstart'
+        @log 'OnStart'
 
       recognition.onresult = () =>
         for result in event.results by -1
@@ -22,21 +25,27 @@ class Executor
             break
 
       recognition.onerror = () =>
-        @log 'onerror'
+        @log 'OnError'
 
       recognition.onend = () =>
-        @log 'onend'
+        @log 'OnEnd'
 
       recognition.start()
 
   execute: (sentence) ->
     [command, params...] = sentence.split(' ')
     if command of @commands
-      console.log "[EXE] #{new Date()} #{command} #{params}"
+      @log "CMD: #{command} [#{params}]"
       @commands[command].apply(undefined, params)
 
   log: (message) ->
     console.log "[EXE] #{message}"
+    if @debug
+      exe_console = document.getElementById('exe-console')
+      log_div = document.createElement('div')
+      log_div.innerHTML = "[EXE] #{message}"
+      exe_console.appendChild(log_div)
+      exe_console.scrollTop = exe_console.scrollHeight
 
 
 window.Executor = Executor
