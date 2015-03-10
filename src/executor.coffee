@@ -15,11 +15,10 @@ class Executor
       recognition.onresult = () =>
         for result in event.results by -1
           if result.isFinal
-            console.log "#{new Date()} #{result[0].transcript}"
-            @execute(result[0].transcript)
+            transcript = result[0].transcript.trim()
+            @execute(transcript)
             break
 
-        console.log 'onresult'
       recognition.onerror = () =>
         console.log 'onerror'
       recognition.onend = () =>
@@ -30,6 +29,7 @@ class Executor
   execute: (sentence) ->
     [command, params...] = sentence.split(' ')
     if command of @commands
+      console.log "[EXE] #{new Date()} #{command} #{params}"
       @commands[command].apply(undefined, params)
 
 

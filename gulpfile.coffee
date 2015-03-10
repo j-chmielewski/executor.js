@@ -12,6 +12,7 @@ gutil = require 'gulp-util'
 paths =
   target: 'dist'
   src: 'src'
+  bower_dir: 'bower_components'
 
 # tasks
 gulp.task 'coffee', ['clean'], () ->
@@ -20,8 +21,12 @@ gulp.task 'coffee', ['clean'], () ->
   .pipe coffee()
   .pipe gulp.dest paths.target
 
+gulp.task 'lib', ['clean'], () ->
+  gulp.src "#{paths.bower_dir}/**/*"
+  .pipe gulp.dest "#{paths.target}/lib"
+
 gulp.task 'copy', ['clean'],() ->
-  gulp.src "#{paths.src}/**/*.html"
+  gulp.src ["#{paths.src}/**/*.html", "#{paths.src}/**/*.jpg"]
   .pipe gulp.dest paths.target
 
 gulp.task 'reload', ['build'], () ->
@@ -42,6 +47,6 @@ gulp.task 'clean', () ->
   .pipe clean()
 
 
-gulp.task 'build', ['coffee', 'copy']
+gulp.task 'build', ['coffee', 'copy', 'lib']
 gulp.task 'server', ['browser-sync', 'watch']
 gulp.task 'default', ['build']
