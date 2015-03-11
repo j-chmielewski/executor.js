@@ -21,6 +21,7 @@ class Executor
         for result in event.results by -1
           if result.isFinal
             transcript = result[0].transcript.trim()
+            @log "REC: #{transcript}"
             @execute(transcript)
             break
 

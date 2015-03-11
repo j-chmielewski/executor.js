@@ -80,6 +80,7 @@ Reveal.initialize({
 });
 
 # executor init
+windows = []
 commands =   {
   left: () ->
     Reveal.left()
@@ -91,10 +92,20 @@ commands =   {
     Reveal.down()
   play: (artist...) ->
     aname = artist.reduce((a, b) -> "#{a}+#{b}")
-    open("http://www.jango.com/music/#{aname}")
+    windows.push(
+      open("http://www.jango.com/music/#{aname}")
+    )
   sing: () ->
     audio = document.getElementsByTagName('audio')[0]
     audio.play()
+  search: (term...) ->
+    joined = term.reduce((a, b) -> "#{a}+#{b}")
+    windows.push(
+      open("https://www.google.com/search?q=#{joined}")
+    )
+  clothes: () ->
+    for w in windows
+      w.close()
 }
 
 exe = new Executor(
